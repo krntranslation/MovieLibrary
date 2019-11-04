@@ -18,50 +18,50 @@ namespace WebAPISample.Controllers
         // GET api/values
         public IHttpActionResult Get()
         {
-            // Retrieve all movies from db logic
             var movies = context.Movies.ToList();
-
             return Ok(movies);
         }
-
-        // GET api/values/5
-        public IHttpActionResult Get(int id)//Changed string to Movie 
+        public IHttpActionResult Get(int id)
         {
             var movie = context.Movies.Find(id);
-            if (movie== null)
+            if (movie == null)
             {
                 return NotFound();
             }
-            // Retrieve movie by id from db logic
             return Ok(movie);
         }
 
         //POST api/values
-        public IHttpActionResult Post([FromBody]Movie value)
+        public IHttpActionResult Post([FromBody]Movie movie)
         {
-            var addNewMovie = new Movie();
-            context.Movies.Add(addNewMovie);
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            context.Movies.Add(movie);
             context.SaveChanges();
-            return Ok(addNewMovie);
-            // Create movie in db logic
+            return Ok(movie);
         }
 
         // PUT api/values/5
-        public IHttpActionResult Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]Movie movie)
         {
-            var foundMovie = Update(id, value);
-            if (foundMovie == null)
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var newMovie = context.Movies.Where(m => m.MovieId == id).FirstOrDefault();
+            if (newMovie != null)
+            {
+                newMovie.MovieId = movie.MovieId;
+                newMovie.Title = movie.Title;
+                newMovie.DirectorName = movie.DirectorName;
+                newMovie.Genre = movie.Genre;
+                context.SaveChanges();
+            }
+            else
             {
                 return NotFound();
             }
-            return Ok(foundMovie);
+            return Ok(newMovie);
         }
-
-        private Movie Update(int id, string value)
-        {
-            throw new NotImplementedException();
-        }
-
         // DELETE api/values/5
         public void Delete(int id)
         {
