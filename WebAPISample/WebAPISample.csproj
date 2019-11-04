@@ -222,6 +222,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911041704318_addedGenre.cs" />
+    <Compile Include="Migrations\201911041704318_addedGenre.Designer.cs">
+      <DependentUpon>201911041704318_addedGenre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911041730516_seedData.cs" />
+    <Compile Include="Migrations\201911041730516_seedData.Designer.cs">
+      <DependentUpon>201911041730516_seedData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -240,6 +248,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap-A.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -338,7 +347,12 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <EmbeddedResource Include="Migrations\201911041704318_addedGenre.resx">
+      <DependentUpon>201911041704318_addedGenre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911041730516_seedData.resx">
+      <DependentUpon>201911041730516_seedData.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

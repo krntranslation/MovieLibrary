@@ -10,30 +10,56 @@ namespace WebAPISample.Controllers
 {
     public class MovieController : ApiController
     {
+        ApplicationDbContext context;
+        public MovieController()
+        {
+            context = new ApplicationDbContext();
+        }
         // GET api/values
-        public IEnumerable<string> Get()
+        public IHttpActionResult Get()
         {
             // Retrieve all movies from db logic
-            return new string[] { "movie1 string", "movie2 string" };
+            var movies = context.Movies.ToList();
+
+            return Ok(movies);
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)//Changed string to Movie 
         {
+            var movie = context.Movies.Find(id);
+            if (movie== null)
+            {
+                return NotFound();
+            }
             // Retrieve movie by id from db logic
-            return "value";
+            return Ok(movie);
         }
 
-        // POST api/values
-        public void Post([FromBody]Movie value)
+        //POST api/values
+        public IHttpActionResult Post([FromBody]Movie value)
         {
+            var addNewMovie = new Movie();
+            context.Movies.Add(addNewMovie);
+            context.SaveChanges();
+            return Ok(addNewMovie);
             // Create movie in db logic
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]string value)
         {
-            // Update movie in db logic
+            var foundMovie = Update(id, value);
+            if (foundMovie == null)
+            {
+                return NotFound();
+            }
+            return Ok(foundMovie);
+        }
+
+        private Movie Update(int id, string value)
+        {
+            throw new NotImplementedException();
         }
 
         // DELETE api/values/5
