@@ -42,7 +42,7 @@ namespace WebAPISample.Controllers
             return Ok(movie);
         }
 
-        // PUT api/values/5
+        [HttpPut]
         public IHttpActionResult Put(int id, [FromBody]Movie movie)
         {
             if (!ModelState.IsValid)
@@ -62,10 +62,18 @@ namespace WebAPISample.Controllers
             }
             return Ok(newMovie);
         }
-        // DELETE api/values/5
-        public void Delete(int id)
+        [HttpPut]
+        public IHttpActionResult Delete(int id)
         {
-            // Delete movie from db logic
+            if (!ModelState.IsValid)         
+                return BadRequest();
+
+                var deletedMovie = context.Movies.Where(x => x.MovieId == id).FirstOrDefault();
+                context.Movies.Remove(deletedMovie);
+                context.SaveChanges();
+
+                return Ok();
+            
         }
     }
 
