@@ -31,7 +31,7 @@ namespace WebAPISample.Controllers
             return Ok(movie);
         }
 
-        //POST api/values
+        [HttpPost]
         public IHttpActionResult Post([FromBody]Movie movie)
         {
             if (!ModelState.IsValid)
