@@ -41,28 +41,38 @@ namespace WebAPISample.Controllers
             context.SaveChanges();
             return Ok(movie);
         }
-
-        [HttpPut]
         public IHttpActionResult Put(int id, [FromBody]Movie movie)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-            var newMovie = context.Movies.Where(m => m.MovieId == id).FirstOrDefault();
+            var newMovie = Update(id, movie);
             if (newMovie != null)
-            {
-                newMovie.MovieId = movie.MovieId;
-                newMovie.Title = movie.Title;
-                newMovie.DirectorName = movie.DirectorName;
-                newMovie.Genre = movie.Genre;
-                context.SaveChanges();
-            }
-            else
             {
                 return NotFound();
             }
             return Ok(newMovie);
         }
-        [HttpPut]
+        private Movie Update(int id, Movie movie)
+        {
+            var newMovie = context.Movies.SingleOrDefault(m => m.MovieId == id); 
+            if (newMovie == null || movie == null)
+            {
+                return null;
+            }
+            try
+            {
+                newMovie.Title = movie.Title;
+                newMovie.DirectorName = movie.DirectorName;
+                newMovie.Genre = movie.Genre;
+                context.SaveChanges();
+                return newMovie;
+            }
+            catch (Exception)
+            {
+
+                throw new NotImplementedException("Error: Unable to update database");
+            }
+        }
+
+        
         public IHttpActionResult Delete(int id)
         {
             if (!ModelState.IsValid)         
