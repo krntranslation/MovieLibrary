@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>jQuery AJAX POST Form</title>
+    <title>Movie Library Project</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
+
 <body>
 
 <div id="response">
     <pre></pre>
 </div>
 
-<form id="my-get">
-    <input type="text" name="title" placeholder="Title" />
-    <input type="text" name="directorName" placeholder="Director" />
-    <input type="text" name="genre" placeholder="Genre"/>
+<form id="my-form">
+	<input id="formMovieId" type="hidden" name="movieId" />
+    <input id= "formTitle" type="text" name="title" placeholder="Title" />
+    <input id="formDirector" type="text" name="director" placeholder="Director" />
+    <input id="formGenre" type="text" name="genre" placeholder="Genre" />
 
-    <button type="submit">Submit</button>
-</form>
-    <h2>Search Movies</h2>
+    <button type="submit">Add Movie</button>
 </form>
 
-<form id="my-put">
-        <input type="text" name="title" placeholder="Title" />
-        <input type="text" name="directorName" placeholder="Director" />
-        <input type="text" name="genre" placeholder="Genre"/>
-    
-        <button type="edit">Edit</button>
-    </form>
+<br>
+<form id="my-form">
+	<input id="formMovieId" type="hidden" name="movieId" />
+    <input id= "formTitle" type="text" name="title" placeholder="Title" />
+    <input id="formDirector" type="text" name="director" placeholder="Director" />
+    <input id="formGenre" type="text" name="genre" placeholder="Genre" />
 
+    <button type="submit">Add Movie</button>
 </form>
-<button type="Get">Get</button>
-</form>
+
+<table class = "table table-striped table-bordered table-hover table-condensed">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Director</th>
+			<th>Genre</th>
+			<th>Options</th>
+		</tr>
+	</thead>
+	<tbody id = "MovieTable"></tbody>
+</table>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="./app.js"></script>
+
 </body>
 </html>

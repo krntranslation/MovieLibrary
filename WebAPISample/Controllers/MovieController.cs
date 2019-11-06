@@ -31,19 +31,33 @@ namespace WebAPISample.Controllers
             return Ok(movie);
         }
 
-        [HttpPost]
-        public IHttpActionResult Post([FromBody]Movie movie)
+        public IHttpActionResult Post([FromBody]Movie value)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            // Create movie in db logic
+            var movieInDb = context.Movies.SingleOrDefault(m => m.MovieId == value.MovieId);
+            if (movieInDb == null)
+            {
+                try
+                {
+                    var newMovie = context.Movies.Add(value);
+                    context.SaveChanges();
+                    return Content(HttpStatusCode.Created, newMovie);
+                }
+                catch (Exception)
+                {
+                    return InternalServerError(new Exception("ERROR: Unable to create new row in database from supplied data"));
+                }
 
-            context.Movies.Add(movie);
-            context.SaveChanges();
-            return Ok(movie);
+            }
+            else
+            {
+                return Ok(Update(movieInDb.MovieId, value));
+            }
         }
-        public IHttpActionResult Put(int id, [FromBody]Movie movie)
+
+        public IHttpActionResult Put(int id, [FromBody]Movie value)
         {
-            var newMovie = Update(id, movie);
+            var newMovie = Update(id, value);
             if (newMovie != null)
             {
                 return NotFound();
@@ -60,7 +74,7 @@ namespace WebAPISample.Controllers
             try
             {
                 newMovie.Title = movie.Title;
-                newMovie.DirectorName = movie.DirectorName;
+                newMovie.Director = movie.Director;
                 newMovie.Genre = movie.Genre;
                 context.SaveChanges();
                 return newMovie;
